@@ -10,6 +10,7 @@ function App() {
 
   return (
     <>
+      <p className="text-3xl font-bold underline">this is a test text</p>
       <RouterProvider router={router} />
     </>
   )
