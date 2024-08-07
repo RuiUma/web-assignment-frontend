@@ -17,11 +17,13 @@ const router = createBrowserRouter([
     },
     {
       path: "/home",
-      element: <PrivateRoute element={<Home />} /> ,
+      element: <PrivateRoute element={Home} /> ,
+      // element: <Home />,
     },
     {
         path: "/post/:id",
-        element: <PrivateRoute element={<Post />} />,
+        // element: <Post />,
+        element: <PrivateRoute element={Post} />,
       },
   ]);
 

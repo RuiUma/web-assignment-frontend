@@ -1,12 +1,17 @@
+import Cookies from "js-cookie";
 const AuthService = {
-    isAuthenticated: false,
-    authenticate() {
+    isAuthenticated() {
+      return !!localStorage.getItem("session_token") || !!Cookies.get("session_token");
+    },
+    authenticate(session_token) {
       this.isAuthenticated = true;
-      setTimeout(() => {}, 100); // fake async
+      localStorage.setItem("session_token", session_token);
+      Cookies.set("session_token", session_token);
     },
     signout() {
-      this.isAuthenticated = false;
-      setTimeout(() => {}, 100);
+      this.isAuthenticated = false
+      localStorage.removeItem("session_token");
+      Cookies.remove("session_token");
     }
   };
   
