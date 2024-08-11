@@ -1,20 +1,67 @@
-import { useState } from 'react';
+import { useState, useEffect } from 'react';
 import { useParams } from 'react-router-dom';
 import BlogPost from '../components/BlogPost';
 import Comment from '../components/Comment';
 import CommentForm from '../components/CommentForm';
+import { restfulPost } from '../requests/request';
 
 const Post = () => {
   const { id } = useParams();
-  const posts = [
-    { id: 1, title: 'First Blog Post', content: 'This is the content of the first post.' },
-    { id: 2, title: 'Second Blog Post', content: 'This is the content of the second post.' }
-  ];
-  const post = posts.find(p => p.id === parseInt(id));
+  const [post, setPost] = useState({});
   const [comments, setComments] = useState([]);
 
-  const addComment = (comment) => {
-    setComments([...comments, comment]);
+  useEffect(() => {
+    const fetchPostDetails = async () => {
+      const response = await restfulPost('/api/assignment2/restfulApi/posts/getPostContent.php',{
+        id: id
+      });
+      if (!response.ok) {
+          throw new Error('Failed to fetch post details');
+      }
+      const data = await response.json();
+      setPost(data);
+    }
+
+    const fetchComments = async () => {
+      const response = await restfulPost('/api/assignment2/restfulApi/comments/getPostComments.php',{
+        id: id
+      });
+      if (!response.ok) {
+          throw new Error('Failed to fetch comments');
+      }
+      const data = await response.json();
+      setComments(data);
+      // data.foreash((comment) => {
+      //   setComments([...comments, comment]);
+      // });
+      
+    }
+
+    fetchPostDetails();
+    fetchComments();
+  }, [])
+
+
+
+  
+
+  const addComment = async (comment) => {
+    // 
+     await restfulPost('/api/assignment2/restfulApi/comments/create.php',{
+      post_id: id,
+      content: comment
+    });
+
+
+    const response = await restfulPost('/api/assignment2/restfulApi/comments/getPostComments.php',{
+      id: id
+    });
+    if (!response.ok) {
+        throw new Error('Failed to fetch comments');
+    }
+    const data = await response.json();
+    setComments(data);
+    
   };
 
   return (
@@ -26,7 +73,7 @@ const Post = () => {
           <h2 className="text-3xl font-semibold mb-6">Comments</h2>
           <div className="space-y-6">
             {comments.map((comment, index) => (
-              <Comment key={index} comment={comment} />
+              <Comment key={index} comment={comment.content} />
             ))}
           </div>
           <div className="mt-8">

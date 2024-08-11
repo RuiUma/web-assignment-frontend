@@ -1,7 +1,9 @@
 import { useState } from "react";
 import { useNavigate } from "react-router-dom";
-import { restfulPost } from "../requests/requset";
+import { restfulPost } from "../requests/request";
 import AuthService from "../auth/AuthService";
+import { Link } from "react-router-dom";
+
 const Login = () => {
     const navigate = useNavigate();
     const [email, setEmail] = useState("");
@@ -60,13 +62,10 @@ const Login = () => {
               >
                 Login
               </button>
-              <a href="#" className="text-sm text-indigo-500 hover:underline">
-                Forgot password?
-              </a>
             </div>
           </form>
           <p className="text-center text-gray-600 text-sm mt-4">
-            Don't have an account? <a href="#" className="text-indigo-500 hover:underline">Sign up</a>
+            Don't have an account? <Link to="/register" className="text-indigo-500 hover:underline">Sign up</Link>
           </p>
         </div>
       </div>

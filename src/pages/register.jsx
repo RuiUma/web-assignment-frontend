@@ -1,7 +1,10 @@
 // src/Register.js
 import { useState } from 'react';
+import { restfulPost } from '../requests/request';
+import { useNavigate } from 'react-router-dom';
 
 const Register = () => {
+  const navigate = useNavigate();
   const [formData, setFormData] = useState({
     username: '',
     email: '',
@@ -17,10 +20,16 @@ const Register = () => {
     });
   };
 
-  const handleSubmit = (e) => {
+  const handleSubmit = async (e) => {
     e.preventDefault();
-    // Handle form submission
+    if (formData.password !== formData.confirmPassword) {
+      alert('Passwords do not match');
+      return;
+    }
     console.log('Form data submitted:', formData);
+    await restfulPost('/api/assignment2/restfulApi/signup.php', formData);
+    alert('please check email for verification')
+    navigate('/login');
   };
 
   return (
