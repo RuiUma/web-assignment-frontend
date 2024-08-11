@@ -8,12 +8,17 @@ const BlogList = () => {
   ];
 
   return (
-    <div>
-      <h1>Blog Posts</h1>
-      <ul>
-        {posts.map(post => (
-          <li key={post.id}>
-            <Link to={`/post/${post.id}`}>{post.title}</Link>
+    <div className="bg-white p-8 rounded-lg shadow-md">
+      <h1 className="text-3xl font-semibold mb-6">Blog Posts</h1>
+      <ul className="space-y-4">
+        {posts.map((post) => (
+          <li key={post.id} className="border-b border-gray-200 pb-2">
+            <Link
+              to={`/post/${post.id}`}
+              className="text-xl text-blue-600 hover:underline"
+            >
+              {post.title}
+            </Link>
           </li>
         ))}
       </ul>

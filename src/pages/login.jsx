@@ -1,9 +1,9 @@
 import { useState } from "react";
-// import { useNavigate } from "react-router-dom";
+import { useNavigate } from "react-router-dom";
 import { restfulPost } from "../requests/requset";
 import AuthService from "../auth/AuthService";
 const Login = () => {
-    // const navigate = useNavigate();
+    const navigate = useNavigate();
     const [email, setEmail] = useState("");
     const [password, setPassword] = useState("");
     
@@ -21,23 +21,56 @@ const Login = () => {
         if (body.status == "success") {
             AuthService.authenticate(body.session_token)
             
-            window.location.href = "/home";
-        }
-        
-        // navigate("/");
+            navigate('/home');
+        }        
     }
     return (
-        <div className="container mx-auto flex justify-center items-center">
-            <div className="border m-1 p-2">
-                <h1 className="text-3xl">Login page</h1>
-                <form onSubmit={handleSubmit} method="post">
-                    <input type="email" value={email} name="email" placeholder="email" onChange={(e) => setEmail(e.target.value)} /> <br />
-                    <input type="password" value={password} name="password" placeholder="password" onChange={(e) => setPassword(e.target.value)} /> <br /> 
-                    <button type="submit"> Submit </button>
-                </form>
+        <div className="flex items-center justify-center min-h-screen bg-gray-100">
+        <div className="bg-white p-8 rounded-lg shadow-lg w-full max-w-sm">
+          <h2 className="text-2xl font-bold text-center text-gray-800">Login</h2>
+          <form className="mt-6" onSubmit={handleSubmit}>
+            <div className="mb-4">
+              <label className="block text-gray-700 text-sm font-bold mb-2" htmlFor="email">
+                Email
+              </label>
+              <input
+                type="email"
+                value={email}
+                onChange={(e) => setEmail(e.target.value)}
+                className="w-full px-3 py-2 border border-gray-300 rounded focus:outline-none focus:border-indigo-500"
+                placeholder="Enter your email"
+              />
             </div>
-            
+            <div className="mb-6">
+              <label className="block text-gray-700 text-sm font-bold mb-2" htmlFor="password">
+                Password
+              </label>
+              <input
+                type="password"
+                value={password}
+                onChange={(e) => setPassword(e.target.value)}
+                className="w-full px-3 py-2 border border-gray-300 rounded focus:outline-none focus:border-indigo-500"
+                placeholder="Enter your password"
+              />
+            </div>
+            <div className="flex items-center justify-between">
+              <button
+                type="submit"
+                className="bg-indigo-500 text-white font-bold py-2 px-4 rounded hover:bg-indigo-600 focus:outline-none focus:ring-2 focus:ring-indigo-400 focus:ring-opacity-75"
+              >
+                Login
+              </button>
+              <a href="#" className="text-sm text-indigo-500 hover:underline">
+                Forgot password?
+              </a>
+            </div>
+          </form>
+          <p className="text-center text-gray-600 text-sm mt-4">
+            Don't have an account? <a href="#" className="text-indigo-500 hover:underline">Sign up</a>
+          </p>
         </div>
+      </div>
+
     );
 }
 

@@ -1,9 +1,10 @@
 import { createBrowserRouter, Navigate } from "react-router-dom";
 import Home from "../pages/Home";
 import Post from "../pages/Post";
-// import App from "../App";
 import PrivateRoute from "../components/PrivateRoute";
 import Login from "../pages/login";
+import Register from "../pages/register";
+import LogoutPage from "../pages/LogoutPage";
 
 
 const router = createBrowserRouter([
@@ -18,13 +19,19 @@ const router = createBrowserRouter([
     {
       path: "/home",
       element: <PrivateRoute element={Home} /> ,
-      // element: <Home />,
     },
     {
         path: "/post/:id",
-        // element: <Post />,
         element: <PrivateRoute element={Post} />,
-      },
+    },
+    {
+        path: "/register",
+        element: <Register />,
+    },
+    {
+        path: "/logout",
+        element: <LogoutPage />,
+    },
   ]);
 
 export default router;

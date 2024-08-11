@@ -2,6 +2,7 @@ import { useState } from 'react';
 import { useParams } from 'react-router-dom';
 import BlogPost from '../components/BlogPost';
 import Comment from '../components/Comment';
+import CommentForm from '../components/CommentForm';
 
 const Post = () => {
   const { id } = useParams();
@@ -17,32 +18,26 @@ const Post = () => {
   };
 
   return (
-    <div>
-      <BlogPost post={post} />
-      <h2>Comments</h2>
-      {comments.map((comment, index) => (
-        <Comment key={index} comment={comment} />
-      ))}
-      <CommentForm addComment={addComment} />
+    <div className="min-h-screen bg-gray-100 py-10">
+      <div className="container mx-auto">
+        <BlogPost post={post} />
+
+        <div className="mt-12 bg-white p-8 rounded-lg shadow-md">
+          <h2 className="text-3xl font-semibold mb-6">Comments</h2>
+          <div className="space-y-6">
+            {comments.map((comment, index) => (
+              <Comment key={index} comment={comment} />
+            ))}
+          </div>
+          <div className="mt-8">
+            <CommentForm addComment={addComment} />
+          </div>
+        </div>
+      </div>
     </div>
   );
 }
 
-const CommentForm = ({ addComment }) => {
-  const [comment, setComment] = useState('');
 
-  const handleSubmit = (e) => {
-    e.preventDefault();
-    addComment(comment);
-    setComment('');
-  };
-
-  return (
-    <form onSubmit={handleSubmit}>
-      <textarea value={comment} onChange={(e) => setComment(e.target.value)} />
-      <button type="submit">Add Comment</button>
-    </form>
-  );
-}
 
 export default Post;
